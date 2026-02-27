@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blood Donation App</title>
 
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 
   <!-- Firebase SDK -->
@@ -52,18 +51,15 @@
 
   <p id="message"></p>
 
-  <!-- Visible only for receivers -->
   <div id="donorSection">
-    <h3>Available Donors</h3>
+    <h3 id="donorTitle">Available Donors</h3>
     <div id="donorList"></div>
   </div>
 </div>
 
-<!-- Firebase config -->
-<script src="firebase-config.js"></script>
+<!-- Center Alert -->
+<div id="alertBox"></div>
 
-<!-- App logic -->
 <script src="app.js"></script>
-
 </body>
 </html>

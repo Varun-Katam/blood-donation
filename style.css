@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,hsl(0, 79%, 52%),hsl(8, 83%, 68%));
+  background: linear-gradient(135deg,#ff6a6a,#ffb86c);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -68,4 +68,28 @@ button:hover {
   margin-top:10px;
   font-weight:bold;
   color:green;
+}
+
+/* CENTER ALERT */
+#alertBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  color: #d63031;
+  padding: 18px 28px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  display: none;
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -60%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
 }
