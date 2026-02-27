@@ -1,75 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blood Donation App</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg,#ff6a6a,#ffb86c);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .container {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      width: 380px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-
-    h2 { text-align:center; color:#d63031; }
-
-    label { font-weight:bold; margin-top:10px; display:block; }
-
-    input, select {
-      width:100%;
-      padding:8px;
-      margin-top:5px;
-      border-radius:6px;
-      border:1px solid #ccc;
-    }
-
-    button {
-      width:100%;
-      padding:10px;
-      margin-top:20px;
-      border:none;
-      border-radius:6px;
-      background:#d63031;
-      color:white;
-      font-size:16px;
-      cursor:pointer;
-    }
-
-    button:hover { background:#b71c1c; }
-
-    #donorSection { display:none; margin-top:15px; }
-
-    .card {
-      background:#ffeaea;
-      padding:10px;
-      margin:8px 0;
-      border-radius:6px;
-    }
-
-    #message {
-      text-align:center;
-      margin-top:10px;
-      font-weight:bold;
-      color:green;
-    }
-  </style>
 </head>
 <body>
 
@@ -111,95 +52,18 @@
 
   <p id="message"></p>
 
-  <!-- Donors visible only to receivers -->
+  <!-- Visible only for receivers -->
   <div id="donorSection">
     <h3>Available Donors</h3>
     <div id="donorList"></div>
   </div>
 </div>
 
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyC8LYxLXy0iDvS24YC5qViUxV64p9IWsY0",
-  authDomain: "blood-donation-4c44a.firebaseapp.com",
-  databaseURL: "https://blood-donation-4c44a-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "blood-donation-4c44a",
-  storageBucket: "blood-donation-4c44a.firebasestorage.app",
-  messagingSenderId: "417183371166",
-  appId: "1:417183371166:web:f45094db0bf6f66e68108f"
-};
+<!-- Firebase config -->
+<script src="firebase-config.js"></script>
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-const form = document.getElementById("bloodForm");
-const donorSection = document.getElementById("donorSection");
-const donorList = document.getElementById("donorList");
-const message = document.getElementById("message");
-const roleSelect = document.getElementById("role");
-
-let requiredBlood = "";
-
-// FAST function to load matching donors
-function loadMatchingDonors() {
-  donorList.innerHTML = "🔍 Searching donors...";
-
-  db.ref("users")
-    .orderByChild("blood")
-    .equalTo(requiredBlood)
-    .once("value", snapshot => {
-
-      donorList.innerHTML = "";
-
-      if (!snapshot.exists()) {
-        donorList.innerHTML = "No donors available.";
-        return;
-      }
-
-      snapshot.forEach(child => {
-        const donor = child.val();
-
-        donorList.innerHTML += `
-          <div class="card">
-            <b>${donor.name}</b><br>
-            Blood: ${donor.blood}<br>
-            Location: ${donor.location}<br>
-            📞 ${donor.mobile}
-          </div>`;
-      });
-
-    });
-}
-
-// Form submit
-form.addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const role = roleSelect.value;
-  const bloodGroup = document.getElementById("blood").value;
-
-  const user = {
-    name: document.getElementById("name").value,
-    mobile: document.getElementById("mobile").value,
-    location: document.getElementById("location").value,
-    role: role,
-    blood: bloodGroup.trim().toUpperCase()
-  };
-
-  if (role === "Donor") {
-    db.ref("users").push(user);
-    message.innerText = "Thank you for donating blood!";
-    donorSection.style.display = "none";
-  } else {
-    requiredBlood = bloodGroup.trim().toUpperCase();
-    message.innerText = "Searching for donors...";
-    donorSection.style.display = "block";
-    loadMatchingDonors();
-  }
-
-  form.reset();
-});
-</script>
+<!-- App logic -->
+<script src="app.js"></script>
 
 </body>
 </html>
